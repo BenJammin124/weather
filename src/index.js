@@ -15,7 +15,7 @@ let tempScaleChange;
 let tempScaleChange2;
 let state = true;
 let ip = true;
-let weatherDataSource = null;
+// let weatherDataSource = null;
 
 async function searchAutoComplete(data) {
   const search = document.querySelector("#search").value;
@@ -48,9 +48,10 @@ async function initialLoadIp() {
       throw new Error("Failed to fetch weather data. Please try again later.");
     }
 
-    weatherDataSource = await response.json();
+    const weatherDataSource = await response.json();
 
     console.log(weatherDataSource);
+    console.log(weatherDataSource.current.condition.icon);
     return weatherDataSource;
   } catch (e) {
     console.error(e);
@@ -71,7 +72,7 @@ async function getWeather() {
     if (!response.ok) {
       throw new Error("Failed to fetch weather data. Please try again later.");
     }
-    weatherDataSource = await response.json();
+    const weatherDataSource = await response.json();
     ip = false;
     console.log(weatherDataSource);
     return weatherDataSource;
@@ -103,7 +104,7 @@ function toggle() {
 tempScaleF.addEventListener("click", toggle);
 
 async function renderMain(data) {
-  // const weatherData = await data();
+  const weatherDataSource = await data();
 
   const mainWeather = document.querySelector(".main-weather");
 
@@ -150,7 +151,7 @@ async function renderMain(data) {
   };
   div.classList.add("flex");
   weather.innerText = weatherDataSource.current.condition.text;
-  img.src = weatherDataSource.current.condition.icon;
+  console.log((img.src = weatherDataSource.current.condition.icon));
   city.innerText = `${weatherDataSource.location.name}, ${weatherDataSource.location.region}`;
   date.innerText = today.toLocaleDateString("en-US", dateOptions);
   tempScaleChange();
@@ -171,7 +172,7 @@ async function renderOther(data) {
   const otherWeather = document.querySelector(".other-weather");
   otherWeather.innerHTML = "";
   const divs = [];
-  // const weatherData = await data();
+  const weatherDataSource = await data();
   const title = document.createElement("h2");
   title.innerText = "Details";
   title.classList.add("title");
@@ -222,7 +223,7 @@ async function renderOther(data) {
 async function renderThreeDay(data) {
   const threeDay = document.querySelector(".three-day");
   threeDay.innerHTML = "";
-  // const weatherData = await data();
+  const weatherDataSource = await data();
   const divs = [];
   const title = document.createElement("h2");
   const container = document.createElement("div");
@@ -311,21 +312,16 @@ function hideResetButton() {
 }
 
 search.addEventListener("keyup", hideResetButton);
-search.addEventListener("keyup", async (e) => {
-  const searchString = e.target.value;
+// search.addEventListener("keyup", async (e) => {
+//   const searchString = e.target.value;
 
-  if (searchString.length >= 3) {
-    let searchResults = await searchAutoComplete(searchString);
-    console.log(searchResults);
-  }
-});
+//   if (searchString.length >= 3) {
+//     let searchResults = await searchAutoComplete(searchString);
+//     console.log(searchResults);
+//   }
+// });
 // searchAutoComplete;
 
-initialLoadIp().then(renderMain);
-initialLoadIp().then(renderOther);
-initialLoadIp().then(renderThreeDay);
-
-// renderMain(initialLoadIp);
-// renderOther(initialLoadIp);
-// renderThreeDay(initialLoadIp);
-// getTempScale();
+renderMain(initialLoadIp);
+renderOther(initialLoadIp);
+renderThreeDay(initialLoadIp);
