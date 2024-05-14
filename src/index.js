@@ -39,7 +39,7 @@ async function searchAutoComplete(data) {
 async function initialLoadIp() {
   try {
     const response = await fetch(
-      `http://api.weatherapi.com/v1/forecast.json?key=f9952a9af61f46bb904231739241305&q=auto:ip&days=8`,
+      `https://api.weatherapi.com/v1/forecast.json?key=f9952a9af61f46bb904231739241305&q=auto:ip&days=8`,
       {
         mode: "cors",
       }
@@ -63,7 +63,7 @@ async function getWeather() {
 
   try {
     const response = await fetch(
-      `http://api.weatherapi.com/v1/forecast.json?key=f9952a9af61f46bb904231739241305&q=${search}&days=8`,
+      `https://api.weatherapi.com/v1/forecast.json?key=f9952a9af61f46bb904231739241305&q=${search}&days=8`,
       {
         mode: "cors",
       }
